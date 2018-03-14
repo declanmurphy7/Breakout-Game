@@ -23,11 +23,18 @@ var brickHeight = 20;
 var brickPadding = 10;
 var brickOffsetTop = 30;
 var brickOffsetLeft = 30;
+var bricks = [];
 
 // Score Variables
 var score = 0;
 
-var bricks = [];
+// Sound Variables
+var WINNING_SOUND = new Audio('sounds/woohoo.wav');
+var SCORE_SOUND = new Audio('sounds/success.wav');
+var GAMEOVER_SOUND = new Audio('sounds/gameover.wav');
+
+
+
 for(c=0; c<brickColumnCount; c++) {
 	bricks[c] = [];
 	for (r=0; r<brickRowCount; r++) {
@@ -98,6 +105,7 @@ function draw() {
 			dy = -dy;
 		}
 		else {
+			GAMEOVER_SOUND.play();
 			alert("GAME OVER");
 			x = canvas.width/2;
 			y = canvas.height-30;
@@ -117,6 +125,7 @@ else if (leftPressed && paddleX > 0) {
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
+document.addEventListener("mousemove",mouseMoveHandler, false);
 
 function keyDownHandler(e) {
 	if(e.keyCode == 39) {
@@ -136,6 +145,14 @@ function keyUpHandler(e) {
 	}
 }
 
+function mouseMoveHandler(e) {
+	var relativeX = e.clientX - canvas.offsetLeft;
+	if(relativeX > 0 && relativeX < canvas.width) {
+		paddleX = relativeX - paddleWidth/2;
+	}
+}
+
+
 function collisionDetection() {
 	for(c=0; c<brickColumnCount; c++) {
 		for(r=0; r<brickRowCount; r++) {
@@ -145,7 +162,9 @@ function collisionDetection() {
 				dy = -dy;
 				b.status = 0;
 				score++;
+				SCORE_SOUND.play();
 				if(score == brickRowCount*brickColumnCount) {
+					WINNING_SOUND.play();
 					alert("YOU WIN, CONGRATULATIONS!");
 				document.location.reload();}
 				}
