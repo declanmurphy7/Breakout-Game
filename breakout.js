@@ -1,3 +1,4 @@
+//Canvas Variables
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
@@ -139,6 +140,8 @@ document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("mousemove",mouseMoveHandler, false);
 
+
+// Key Press Functions
 function keyDownHandler(e) {
 	if(e.keyCode == 39) {
 		rightPressed = true;
@@ -156,7 +159,7 @@ function keyUpHandler(e) {
 		leftPressed = false;
 	}
 }
-
+// Mouse Function
 function mouseMoveHandler(e) {
 	var relativeX = e.clientX - canvas.offsetLeft;
 	if(relativeX > 0 && relativeX < canvas.width) {
@@ -164,7 +167,7 @@ function mouseMoveHandler(e) {
 	}
 }
 
-
+// Disapearing of Bricks
 function collisionDetection() {
 	for(c=0; c<brickColumnCount; c++) {
 		for(r=0; r<brickRowCount; r++) {
